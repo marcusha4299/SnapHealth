@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">SnapHealth</string>
+    <string name="you_drank_this_many_cups_of_water">You drank this many cups of water</string>
+    <string name="_1_water">+1 Water</string>
+    <string name="_0">0</string>
+    <string name="_100">100</string>
+    <string name="five_mounthfuls">FIVE MOUNTHFULS</string>
+    <string name="a_mug">A MUG</string>
+    <string name="large_gulp">LARGE GULP</string>
+    <string name="small_gulp">SMALL GULP</string>
+    <string name="reset">Reset</string>
+    <string name="five_mouthfuls">Five Mouthfuls</string>
 </resources>

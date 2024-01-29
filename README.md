@@ -28,3 +28,22 @@ User:
   Protein: 15-25% of total daily calories (1 gram of protein = 4 calories)
   Fat: 20-35% of total daily calories (1 gram of fat = 9 calories)
   Carbohydrates: The remaining calories after protein and fat are calculated, divided by 4 (1 gram of carbs = 4 calories)
+
+
+
+THE HYDRATION TRACKER AND REMINDER ENGINE
+
+ 4 options for user:
+    Small Gulp : 43ml
+    Large Gulp : 77ml
+    Five Mouthfuls : 157ml
+    A mug : 240ml
+    research : https://pubmed.ncbi.nlm.nih.gov/23323807/#:~:text=The%20mean%20volume%20(95%25%20prediction,(25%2D375)%20mL.
+
+ The standard water need per day for adult is: 2 litters = 2000ml
+    Reset button : reset to 2000ml
+ 
+ Date and time tracker: API -> track current date -> If the current past (tommorow) -> revert to 2000ml 
+
+ Share reference -> store current data to local so when the user turn off the app and turn on again, the data won't lose
+    
