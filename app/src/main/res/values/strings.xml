@@ -10,4 +10,8 @@
     <string name="small_gulp">SMALL GULP</string>
     <string name="reset">Reset</string>
     <string name="five_mouthfuls">Five Mouthfuls</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="submit">Submit</string>
+    <string name="sleep_details">Sleep Details</string>
 </resources>
