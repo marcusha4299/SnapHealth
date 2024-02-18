@@ -17,4 +17,8 @@
     <string name="to_hydration">to Hydration</string>
     <string name="to_food">To Food</string>
     <string name="to_sleep">To Sleep</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
 </resources>

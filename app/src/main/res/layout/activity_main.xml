@@ -6,40 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <Button
-        android:id="@+id/hydration_switch"
+    <TextView
+        android:id="@+id/tvAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onClickSwitchActivity"
-        android:text="@string/to_hydration"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.56"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="SnapHealth"
+        android:textSize="24sp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.464" />
+        app:layout_constraintBottom_toTopOf="@+id/btnFood"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"/>
 
     <Button
-        android:id="@+id/food_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/to_food"
-        app:layout_constraintBottom_toTopOf="@+id/hydration_switch"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/btnFood"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/circle_button_food"
+        android:text="Food"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/tvAppName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:textSize="12sp"/>
 
     <Button
-        android:id="@+id/sleep_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/to_sleep"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.541"
+        android:id="@+id/btnWater"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/circle_button_food"
+        android:text="Water"
+        app:layout_constraintTop_toBottomOf="@+id/btnFood"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hydration_switch"
-        app:layout_constraintVertical_bias="0.425" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:textSize="12sp"/>
+
+    <Button
+        android:id="@+id/btnSleep"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/circle_button_food"
+        android:text="Sleep"
+        app:layout_constraintTop_toBottomOf="@+id/btnWater"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:textSize="12sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
