@@ -1,5 +1,6 @@
 package com.example.snaphealth
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -30,6 +31,14 @@ class Hydration :  ComponentActivity() {
         val fiveButton: Button = findViewById(R.id.five_button)
         val mugButton: Button = findViewById(R.id.mug_button)
         val waterCount_Text: TextView = findViewById(R.id.WaterCount_textView)
+        val backButton: Button = findViewById(R.id.back_button)
+
+        backButton.setOnClickListener {
+            // Navigate back to MainActivity
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish() // Optional: Close the current activity
+        }
         waterCount_Text.text = waterCount
 
         smallButton.setOnClickListener{
