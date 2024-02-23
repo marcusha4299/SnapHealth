@@ -21,4 +21,9 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
+    <string name="activity_level">Activity Level</string>
+    <string name="goal">Goal</string>
+    <string name="diet_type">Diet Type</string>
+    <string name="calculate">Calculate</string>
+    <string name="click_here">Click here</string>
 </resources>

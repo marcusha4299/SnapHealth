@@ -1,5 +1,6 @@
 package com.example.snaphealth
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,6 +11,7 @@ import android.widget.RadioGroup
 import android.widget.TextView
 
 class SignupPage : ComponentActivity() {
+    var genderdefault = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
@@ -23,13 +25,34 @@ class SignupPage : ComponentActivity() {
         val heightEditText = findViewById<EditText>(R.id.height)
         val weightEditText = findViewById<EditText>(R.id.weight)
         val submitButton = findViewById<Button>(R.id.submit)
+
+
+        genderGroup.setOnCheckedChangeListener { _, id ->
+            if (id == R.id.male) {
+                genderdefault = true
+            } else if (id == R.id.female) {
+                genderdefault = false
+            }
+        }
+
+        //Problem here
+        //I want to pass datas -> FoodRecommendation but switch to MainActivity first
+        //This function pass data and switch to FoodRecommendation at the same time
         submitButton.setOnClickListener {
-            if (validateForm(firstNameEditText, lastNameEditText, usernameEditText, passwordEditText, genderGroup, ageEditText, heightEditText, weightEditText)) {
-                finish()
+            if(validateForm()){
+                //firstname, lastname, username, and password don't need to be passed -> FoodRecommendation
+                val submitIntent = Intent(this, FoodRecommendation::class.java).apply{
+                    putExtra("height", heightEditText.text.toString().toDouble())
+                    putExtra("weight", weightEditText.text.toString().toDouble())
+                    putExtra("age", ageEditText.text.toString().toInt())
+                    putExtra("gender", genderdefault)
+                }
+                startActivity(submitIntent)
             }
         }
     }
 
+    //ensure user fill in every blanks
     private fun validateForm(vararg fields: Any): Boolean {
         var isValid = true
         for (field in fields) {

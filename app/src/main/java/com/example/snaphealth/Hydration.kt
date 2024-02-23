@@ -19,7 +19,7 @@ class Hydration :  ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_hydration)
 
-        //share preferences (save data so when user reopen the data will not reverse to original
+        //share preferences (save data so when user reopen the data will not reverse to original)
         val sharedPreferences = getSharedPreferences("SP_INFO", MODE_PRIVATE)
         val waterCount = sharedPreferences.getString("WATERCOUNT", "2000")
         var editor = sharedPreferences.edit()

@@ -57,6 +57,13 @@
             android:theme="@style/Theme.SnapHealth">
         </activity>
 
+        <activity
+            android:name=".MealRecommendation"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.SnapHealth">
+        </activity>
+
     </application>
 
 
