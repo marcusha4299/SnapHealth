@@ -49,7 +49,7 @@ class Sleep : ComponentActivity() {
         setContentView(R.layout.fragment_sleep)
 
         textViewResult = findViewById(R.id.textView11)
-        textViewSleptIn = findViewById(R.id.textViewSleptIn)
+        textViewSleptIn = findViewById(R.id.textView10)
         val switchNight = findViewById<Switch>(R.id.switch1)
         switchNight.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
