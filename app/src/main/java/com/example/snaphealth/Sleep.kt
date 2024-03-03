@@ -1,67 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".Sleep">
+package com.example.snaphealth
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="This is Sleep UI"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/switch1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import android.os.Handler
+import android.widget.Switch
+import android.widget.TextView
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Switch to Sleep"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView11"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.4" />
+class Sleep : ComponentActivity() {
+    private var isNight = false
+    private var startTime: Long = 0
+    private lateinit var textViewResult: TextView
+    private lateinit var textViewSleptIn: TextView
+    private var sleptInStarted = false
+    private var sleptInStartTime: Long = 0
+    private val handler = Handler()
+    private val runnable = object : Runnable {
+        override fun run() {
+            if (isNight) {
+                val currentTime = System.currentTimeMillis()
+                val displayTime = currentTime - startTime
+                val s = displayTime / 1000
+                val m = s / 60
+                val h = m / 60
+                val result = "Time Asleep: $h hours, ${m % 60} minutes, ${s % 60} seconds"
+                textViewResult.text = result
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Time Asleep:"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch1" />
+                if (displayTime >= 10000 && !sleptInStarted) {
+                    sleptInStarted = true
+                    sleptInStartTime = currentTime
+                }
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:text="You Slept in for:"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                if (sleptInStarted) {
+                    val sleptInTime = currentTime - sleptInStartTime
+                    val sleptInS = sleptInTime / 1000
+                    val sleptInM = sleptInS / 60
+                    val sleptInH = sleptInM / 60
+                    val sleptInResult = "$sleptInH hours, ${sleptInM % 60} minutes, ${sleptInS % 60} seconds"
+                    textViewSleptIn.text = sleptInResult
+                }
 
-    <TextView
-        android:id="@+id/textViewSleptIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0 hours, 0 minutes, 0 seconds"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+                handler.postDelayed(this, 1000)
+            }
+        }
+    }
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_sleep)
+
+        textViewResult = findViewById(R.id.textView11)
+        textViewSleptIn = findViewById(R.id.textViewSleptIn)
+        val switchNight = findViewById<Switch>(R.id.switch1)
+        switchNight.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                startTimer()
+            } else {
+                stopTimer()
+            }
+        }
+    }
+
+    private fun startTimer() {
+        isNight = true
+        startTime = System.currentTimeMillis()
+        sleptInStarted = false
+        handler.post(runnable)
+    }
+
+    private fun stopTimer() {
+        if (isNight) {
+            handler.removeCallbacks(runnable)
+            isNight = false
+        }
+    }
+}
