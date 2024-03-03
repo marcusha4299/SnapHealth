@@ -1,53 +1,75 @@
 package com.example.snaphealth
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import android.content.pm.PackageManager
-import androidx.core.app.ActivityCompat
-import android.Manifest
-import android.os.CountDownTimer
+import android.os.Handler
 import android.widget.Switch
 import android.widget.TextView
 
-class Sleep :  ComponentActivity() {
+class Sleep : ComponentActivity() {
     private var isNight = false
-    private var startCounting: Long = 0
+    private var startTime: Long = 0
     private lateinit var textViewResult: TextView
+    private lateinit var textViewSleptIn: TextView
+    private var sleptInStarted = false
+    private var sleptInStartTime: Long = 0
+    private val handler = Handler()
+    private val runnable = object : Runnable {
+        override fun run() {
+            if (isNight) {
+                val currentTime = System.currentTimeMillis()
+                val displayTime = currentTime - startTime
+                val s = displayTime / 1000
+                val m = s / 60
+                val h = m / 60
+                val result = "Time Asleep: $h hours, ${m % 60} minutes, ${s % 60} seconds"
+                textViewResult.text = result
+
+                if (displayTime >= 10000 && !sleptInStarted) {
+                    sleptInStarted = true
+                    sleptInStartTime = currentTime
+                }
+
+                if (sleptInStarted) {
+                    val sleptInTime = currentTime - sleptInStartTime
+                    val sleptInS = sleptInTime / 1000
+                    val sleptInM = sleptInS / 60
+                    val sleptInH = sleptInM / 60
+                    val sleptInResult = "$sleptInH hours, ${sleptInM % 60} minutes, ${sleptInS % 60} seconds"
+                    textViewSleptIn.text = sleptInResult
+                }
+
+                handler.postDelayed(this, 1000)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_sleep)
 
-        textViewResult = findViewById<TextView>(R.id.textView11)
+        textViewResult = findViewById(R.id.textView11)
+        textViewSleptIn = findViewById(R.id.textViewSleptIn)
         val switchNight = findViewById<Switch>(R.id.switch1)
-        switchNight.setOnCheckedChangeListener{_, switch ->
-            if(switch){
-                clockCount()
-            }else{
-                stopCount()
+        switchNight.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                startTimer()
+            } else {
+                stopTimer()
             }
         }
-
     }
-    private fun clockCount(){
+
+    private fun startTimer() {
         isNight = true
-        startCounting = System.currentTimeMillis()
+        startTime = System.currentTimeMillis()
+        sleptInStarted = false
+        handler.post(runnable)
     }
 
-    private fun stopCount(){
+    private fun stopTimer() {
         if (isNight) {
-            val endCounting = System.currentTimeMillis()
-            val displayTime = endCounting - startCounting
-            val s = displayTime / 1000
-            val m = s / 60
-            val h = m / 60
-            val result = "Time elapsed: $h hours, ${m % 60} minutes, ${s % 60} seconds"
-            textViewResult.text = result
+            handler.removeCallbacks(runnable)
             isNight = false
         }
     }

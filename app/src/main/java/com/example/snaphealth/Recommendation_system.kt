@@ -32,7 +32,6 @@ class Recommendation_system : ComponentActivity(){
                 "Lightly" -> bmr * 1.375
                 "Moderately" -> bmr * 1.5
                 "Very" -> bmr * 1.725f
-
                 else -> bmr * 1.9
             }
         }

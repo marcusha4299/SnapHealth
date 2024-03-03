@@ -100,6 +100,12 @@ class FoodRecommendation :  ComponentActivity() {
             val tdee = recommendationSystem.tdee(bmr, level_value.toString())
             val caloriesIntake = recommendationSystem.calories_intake(tdee, goal_value.toString()).roundToInt()
             calory_display.text = caloriesIntake.toString()
+
+            click_here.setOnClickListener{
+                val intent = Intent(this, MealRecommendation::class.java)
+                intent.putExtra("calories", caloriesIntake)
+                startActivity(intent)
+            }
         }
     }
 }

@@ -26,4 +26,8 @@
     <string name="diet_type">Diet Type</string>
     <string name="calculate">Calculate</string>
     <string name="click_here">Click here</string>
+    <string name="you_slept_in">You Slept in:</string>
+    <string name="switch_to_sleep">Switch to Sleep</string>
+    <string name="this_is_sleep_ui">This is Sleep UI</string>
+    <string name="textview">TextView</string>
 </resources>
