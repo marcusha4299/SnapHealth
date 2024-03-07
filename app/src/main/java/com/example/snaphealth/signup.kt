@@ -1,22 +1,22 @@
 package com.example.snaphealth
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import androidx.activity.ComponentActivity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
-import com.google.gson.Gson
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import android.util.Log
+import android.widget.Toast
+import org.json.JSONArray
 
+import org.json.JSONObject
+import java.io.File
 
 class SignupPage : ComponentActivity() {
-    var genderdefault = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
@@ -30,63 +30,38 @@ class SignupPage : ComponentActivity() {
         val heightEditText = findViewById<EditText>(R.id.height)
         val weightEditText = findViewById<EditText>(R.id.weight)
         val submitButton = findViewById<Button>(R.id.submit)
-
-
-        genderGroup.setOnCheckedChangeListener { _, id ->
-            if (id == R.id.male) {
-                genderdefault = true
-            } else if (id == R.id.female) {
-                genderdefault = false
-            }
-        }
-
-        //Problem here
-        //I want to pass datas -> FoodRecommendation but switch to MainActivity first
-        //This function pass data and switch to FoodRecommendation at the same time
         submitButton.setOnClickListener {
-            if(validateForm()){
-                val newUser = User(
-                    firstName = firstNameEditText.text.toString(),
-                    lastName = lastNameEditText.text.toString(),
-                    username = usernameEditText.text.toString(),
-                    password = passwordEditText.text.toString(), // Consider using secure password storage.
-                    age = ageEditText.text.toString().toInt(),
-                    height = heightEditText.text.toString().toDouble(),
-                    weight = weightEditText.text.toString().toDouble(),
-                    gender = genderdefault
-                )
-
-                val gson = Gson()
-                val userJson = gson.toJson(newUser)
-
-                val filename = "user_data.json"
-                openFileOutput(filename, MODE_PRIVATE).use {
-                    it.write(userJson.toByteArray())
+            if (validateForm(firstNameEditText, lastNameEditText, usernameEditText, passwordEditText, genderGroup, ageEditText, heightEditText, weightEditText)) {
+                val firstname = firstNameEditText.text.toString()
+                val lastname = lastNameEditText.text.toString()
+                val password = passwordEditText.text.toString()
+                val username = usernameEditText.text.toString()
+                val gender = findViewById<RadioButton>(genderGroup.checkedRadioButtonId).text.toString()
+                val age = ageEditText.text.toString().toInt()
+                val height = heightEditText.text.toString().toDouble()
+                val weight = weightEditText.text.toString().toDouble()
+                val infoArray = arrayOf(firstname, lastname, password, gender, age, height, weight)
+                val infoJsonArray = JSONArray(infoArray)
+                val file = File(filesDir, "user_data.json")
+                val existingJsonString = if (file.exists()) {
+                    file.readText()
                 }
-
-                val submitIntent = Intent(this, FoodRecommendation::class.java).apply {
-                    putExtra("height", newUser.height)
-                    putExtra("weight", newUser.weight)
-                    putExtra("age", newUser.age)
-                    putExtra("gender", newUser.gender)
+                else {
+                    "{}"
                 }
-
-                readAndLogUserData()
-
-                //firstname, lastname, username, and password don't need to be passed -> FoodRecommendation
-//                val submitIntent = Intent(this, FoodRecommendation::class.java).apply{
-//                    putExtra("height", heightEditText.text.toString().toDouble())
-//                    putExtra("weight", weightEditText.text.toString().toDouble())
-//                    putExtra("age", ageEditText.text.toString().toInt())
-//                    putExtra("gender", genderdefault)
-//                }
-                finish()
-//                startActivity(submitIntent)
+                val existingJsonObject = JSONObject(existingJsonString)
+                if (existingJsonObject.has(username)) {
+                    Toast.makeText(this, "Username already exists", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    existingJsonObject.put(username, infoJsonArray)
+                    file.writeText(existingJsonObject.toString())
+                    finish()
+                }
             }
         }
     }
 
-    //ensure user fill in every blanks
     private fun validateForm(vararg fields: Any): Boolean {
         var isValid = true
         for (field in fields) {
@@ -108,23 +83,6 @@ class SignupPage : ComponentActivity() {
             }
         }
         return isValid
-    }
-
-    private fun readAndLogUserData() {
-        val filename = "user_data.json"
-        try {
-            val fileInputStream = openFileInput(filename)
-            val inputStreamReader = InputStreamReader(fileInputStream)
-            val bufferedReader = BufferedReader(inputStreamReader)
-            val stringBuilder = StringBuilder()
-            var text: String?
-            while (run { text = bufferedReader.readLine(); text } != null) {
-                stringBuilder.append(text)
-            }
-            Log.d("SignupPage", "User data JSON: ${stringBuilder.toString()}")
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 }
 

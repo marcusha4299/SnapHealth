@@ -10,6 +10,8 @@ import com.google.gson.Gson
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import android.widget.EditText
+import org.json.JSONObject
+import java.io.File
 
 class homepage : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,35 +32,62 @@ class homepage : ComponentActivity() {
             val inputUsername = usernameEditText.text.toString()
             val inputPassword = passwordEditText.text.toString()
 
-            val user = readUserData()
-            if (user != null && inputUsername == user.username && inputPassword == user.password) {
-                // Login successful
-                val intent = Intent(this, MainActivity::class.java) // Change MainActivity to the next activity after login
-                startActivity(intent)
-                finish()
-            } else {
-                // Login failed
-                Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show()
+//            val user = readUserData()
+//            if (user != null && inputUsername == user.username && inputPassword == user.password) {
+//                // Login successful
+//                val intent = Intent(this, MainActivity::class.java) // Change MainActivity to the next activity after login
+//                startActivity(intent)
+//                finish()
+//            } else {
+//                // Login failed
+//                Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show()
+//            }
+            val file = File(filesDir, "user_data.json")
+            val dataJsonString = if (file.exists()) {
+                file.readText()
+            }
+            else {
+                "{}"
+            }
+            val dataJsonObject = JSONObject(dataJsonString)
+            if (dataJsonString == "{}") {
+                Toast.makeText(this, "Please sign up", Toast.LENGTH_SHORT).show()
+                file.writeText(dataJsonObject.toString())
+            }
+            else {
+                if (dataJsonObject.has(inputUsername)) {
+                    val dataJsonArray = dataJsonObject.getJSONArray(inputUsername)
+                    if (inputPassword == dataJsonArray.get(2)) {
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else {
+                    Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
-    private fun readUserData(): User? {
-        val filename = "user_data.json"
-        return try {
-            val fileInputStream = openFileInput(filename)
-            val inputStreamReader = InputStreamReader(fileInputStream)
-            val bufferedReader = BufferedReader(inputStreamReader)
-            val stringBuilder = StringBuilder()
-            var text: String?
-            while (run { text = bufferedReader.readLine(); text } != null) {
-                stringBuilder.append(text)
-            }
-            val gson = Gson()
-            gson.fromJson(stringBuilder.toString(), User::class.java)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }
+//    private fun readUserData(): User? {
+//        val filename = "user_data.json"
+//        return try {
+//            val fileInputStream = openFileInput(filename)
+//            val inputStreamReader = InputStreamReader(fileInputStream)
+//            val bufferedReader = BufferedReader(inputStreamReader)
+//            val stringBuilder = StringBuilder()
+//            var text: String?
+//            while (run { text = bufferedReader.readLine(); text } != null) {
+//                stringBuilder.append(text)
+//            }
+//            val gson = Gson()
+//            gson.fromJson(stringBuilder.toString(), User::class.java)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            null
+//        }
+//    }
 }
