@@ -14,6 +14,13 @@ import java.io.File
 import java.io.PrintWriter
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+
 class Sleep : ComponentActivity() {
     private var isNight = false
     private var startTime: Long = 0
@@ -32,6 +39,47 @@ class Sleep : ComponentActivity() {
     private var height: Double = 0.0
     private var weight: Double = 0.0
 
+    private fun fetchWeatherData(city: String) {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val apiKey = "8c34baaea73542a67c5720f6a4796ce7"
+                val urlString = "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric"
+                val url = URL(urlString)
+                val connection = url.openConnection() as HttpURLConnection
+                connection.requestMethod = "GET"
+                connection.connect()
+
+                val inputStream = connection.inputStream
+                val reader = BufferedReader(InputStreamReader(inputStream))
+                val response = StringBuilder()
+                var line: String?
+                while (reader.readLine().also { line = it } != null) {
+                    response.append(line)
+                }
+
+                val jsonResponse = JSONObject(response.toString())
+                val main = jsonResponse.getJSONObject("main")
+                val temp = main.getDouble("temp")
+
+                withContext(Dispatchers.Main) {
+                    updateUI(city, temp)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun updateUI(city: String, temp: Double) {
+        val tempFormatted = String.format("%.1f", temp)
+        val sleepAdvice: String = when {
+            temp < 16 -> "It's too cold for sleep. Consider warming up the room."
+            temp > 24 -> "It's too hot for sleep. Consider cooling down the room."
+            else -> "The temperature is perfect for sleep."
+        }
+        val message = "City: $city\nTemperature: $tempFormatted°C\n$sleepAdvice"
+        findViewById<TextView>(R.id.weatherAdviceTextView).text = message
+    }
 
     private val runnable = object : Runnable {
         override fun run() {
@@ -66,7 +114,7 @@ class Sleep : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_sleep)
-
+        fetchWeatherData("Irvine")
         val data = intent.extras
         if (data != null) {
             username = data.getString("username").toString()
