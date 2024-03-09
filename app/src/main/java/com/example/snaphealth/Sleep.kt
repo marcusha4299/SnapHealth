@@ -5,7 +5,15 @@ import androidx.activity.ComponentActivity
 import android.os.Handler
 import android.widget.Switch
 import android.widget.TextView
-
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.json.JSONObject
+import org.json.JSONArray
+import java.io.File
+import java.io.PrintWriter
+import java.text.SimpleDateFormat
+import java.util.*
 class Sleep : ComponentActivity() {
     private var isNight = false
     private var startTime: Long = 0
@@ -14,6 +22,9 @@ class Sleep : ComponentActivity() {
     private var sleptInStarted = false
     private var sleptInStartTime: Long = 0
     private val handler = Handler()
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+
+
     private val runnable = object : Runnable {
         override fun run() {
             if (isNight) {
@@ -71,6 +82,36 @@ class Sleep : ComponentActivity() {
         if (isNight) {
             handler.removeCallbacks(runnable)
             isNight = false
+            saveSleepData()
+        }
+    }
+
+    private fun saveSleepData() {
+        val currentTime = System.currentTimeMillis()
+        val sleepTime = currentTime - startTime
+        val oversleepTime = if (sleptInStarted) currentTime - sleptInStartTime else 0
+
+        val sleepData = listOf(
+            dateFormat.format(Date(startTime)),
+            dateFormat.format(Date(currentTime)),
+            sleepTime.toString(),
+            oversleepTime.toString()
+        )
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val file = File(filesDir, "sleep_data.csv")
+            if (!file.exists()) {
+                file.createNewFile()
+                file.appendText("Begin Time, End Time, Sleep Time (ms), Oversleep Time (ms)\n")
+            }
+            file.appendText("${sleepData.joinToString(",")}\n")
         }
     }
 }
+
+data class SleepData(
+    val sleepTime: Long,
+    val oversleepTime: Long,
+    val beginTime: String,
+    val endTime: String
+)

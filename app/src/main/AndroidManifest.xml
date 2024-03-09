@@ -64,6 +64,13 @@
             android:theme="@style/Theme.SnapHealth">
         </activity>
 
+        <activity
+            android:name=".SleepAnalysis"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.SnapHealth">
+        </activity>
+
     </application>
 
 
