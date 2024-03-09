@@ -13,11 +13,36 @@ import java.time.LocalDate
 
 
 class Hydration :  ComponentActivity() {
+    private var username: String = ""
+    private var firstname: String = ""
+    private var lastname: String = ""
+    private var gender: String = ""
+    private var age: Int = 0
+    private var height: Double = 0.0
+    private var weight: Double = 0.0
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_hydration)
+
+        val data = intent.extras
+        if (data != null) {
+            username = data.getString("username").toString()
+            firstname = data.getString("firstname").toString()
+            lastname = data.getString("lastname").toString()
+            gender = data.getString("gender").toString()
+            age = data.getInt("age")
+            height = data.getDouble("height")
+            weight = data.getDouble("weight")
+        }
+        println(username)
+        println(firstname)
+        println(lastname)
+        println(gender)
+        println(age)
+        println(height)
+        println(weight)
 
         //share preferences (save data so when user reopen the data will not reverse to original)
         val sharedPreferences = getSharedPreferences("SP_INFO", MODE_PRIVATE)

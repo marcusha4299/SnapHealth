@@ -24,6 +24,14 @@ class Sleep : ComponentActivity() {
     private val handler = Handler()
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
 
+    private var username: String = ""
+    private var firstname: String = ""
+    private var lastname: String = ""
+    private var gender: String = ""
+    private var age: Int = 0
+    private var height: Double = 0.0
+    private var weight: Double = 0.0
+
 
     private val runnable = object : Runnable {
         override fun run() {
@@ -58,6 +66,24 @@ class Sleep : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_sleep)
+
+        val data = intent.extras
+        if (data != null) {
+            username = data.getString("username").toString()
+            firstname = data.getString("firstname").toString()
+            lastname = data.getString("lastname").toString()
+            gender = data.getString("gender").toString()
+            age = data.getInt("age")
+            height = data.getDouble("height")
+            weight = data.getDouble("weight")
+        }
+        println(username)
+        println(firstname)
+        println(lastname)
+        println(gender)
+        println(age)
+        println(height)
+        println(weight)
 
         textViewResult = findViewById(R.id.textView11)
         textViewSleptIn = findViewById(R.id.textView10)

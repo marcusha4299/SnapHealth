@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import android.widget.EditText
+import android.widget.RadioButton
 import org.json.JSONObject
 import java.io.File
 
@@ -58,7 +59,20 @@ class homepage : ComponentActivity() {
                 if (dataJsonObject.has(inputUsername)) {
                     val dataJsonArray = dataJsonObject.getJSONArray(inputUsername)
                     if (inputPassword == dataJsonArray.get(2)) {
+                        val firstname = dataJsonArray.getString(0)
+                        val lastname = dataJsonArray.getString(1)
+                        val gender = dataJsonArray.getString(3)
+                        val age = dataJsonArray.getInt(4)
+                        val height = dataJsonArray.getDouble(5)
+                        val weight = dataJsonArray.getDouble(6)
                         val intent = Intent(this, MainActivity::class.java)
+                        intent.putExtra("username", inputUsername)
+                        intent.putExtra("firstname", firstname)
+                        intent.putExtra("lastname", lastname)
+                        intent.putExtra("gender", gender)
+                        intent.putExtra("age", age)
+                        intent.putExtra("height", height)
+                        intent.putExtra("weight", weight)
                         startActivity(intent)
                         finish()
                     } else {

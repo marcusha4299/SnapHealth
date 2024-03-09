@@ -18,9 +18,36 @@ class FoodRecommendation :  ComponentActivity() {
     //Set up empty string for level and goal spinning option
     private var level_value: String = ""
     private var goal_value: String = ""
+
+    private var username: String = ""
+    private var firstname: String = ""
+    private var lastname: String = ""
+    private var gender: String = ""
+    private var age: Int = 0
+    private var height: Double = 0.0
+    private var weight: Double = 0.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_food_recommendation)
+
+        val data = intent.extras
+        if (data != null) {
+            username = data.getString("username").toString()
+            firstname = data.getString("firstname").toString()
+            lastname = data.getString("lastname").toString()
+            gender = data.getString("gender").toString()
+            age = data.getInt("age")
+            height = data.getDouble("height")
+            weight = data.getDouble("weight")
+        }
+        println(username)
+        println(firstname)
+        println(lastname)
+        println(gender)
+        println(age)
+        println(height)
+        println(weight)
 
         //Types of level activity, pass to recommendation algorithm
         val level_spinner = findViewById<Spinner>(R.id.spinner)
@@ -88,11 +115,10 @@ class FoodRecommendation :  ComponentActivity() {
 
         //pass objects and method from algorithm from recommendation_system
         calculate.setOnClickListener {
-            val height = intent.getDoubleExtra("height", 0.0)
-            val weight = intent.getDoubleExtra("weight", 0.0)
-            val age = intent.getIntExtra("age", 0)
-            val gender = intent.getBooleanExtra("gender", true)
-
+//            val height = intent.getDoubleExtra("height", 0.0)
+//            val weight = intent.getDoubleExtra("weight", 0.0)
+//            val age = intent.getIntExtra("age", 0)
+//            val gender = intent.getBooleanExtra("gender", true)
 
             //pass algorithm from FoodRecommendation activity to display calories_intake
             val recommendationSystem = Recommendation_system()

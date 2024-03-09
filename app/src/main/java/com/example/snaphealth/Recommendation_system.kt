@@ -15,9 +15,9 @@ class Recommendation_system : ComponentActivity(){
             age: Int,
             height: Double,
             weight: Double,
-            gender: Boolean
+            gender: String
         ): Double {
-            return if (gender) {
+            return if (gender == "Male") {
                 66.4730 + (13.7516 * weight) + (5.0033 * height) - (6.7550 * age)
             } else {
                 65.0955 + (9.5634 * weight) + (1.8496 * height) - (4.6756 * age)
