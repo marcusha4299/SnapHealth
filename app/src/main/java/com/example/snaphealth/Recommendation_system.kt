@@ -28,10 +28,10 @@ class Recommendation_system : ComponentActivity(){
         //https://www.livestrong.com/article/526442-the-activity-factor-for-calculating-calories-burned/
         fun tdee(bmr: Double, activity_level: String): Double {
             return when (activity_level) {
-                "Sedentary" -> bmr * 1.2
-                "Lightly" -> bmr * 1.375
-                "Moderately" -> bmr * 1.5
-                "Very" -> bmr * 1.725f
+                "Sedentary(little or no exercise)" -> bmr * 1.2
+                "Lightly(1-2 days/week)" -> bmr * 1.375
+                "Moderately(3-5 days/week)" -> bmr * 1.5
+                "Very(6-7 days/week)" -> bmr * 1.725f
                 else -> bmr * 1.9
             }
         }

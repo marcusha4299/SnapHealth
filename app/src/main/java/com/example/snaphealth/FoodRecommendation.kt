@@ -18,7 +18,7 @@ class FoodRecommendation :  ComponentActivity() {
     //Set up empty string for level and goal spinning option
     private var level_value: String = ""
     private var goal_value: String = ""
-
+    private var dietType_value: String = ""
     private var username: String = ""
     private var firstname: String = ""
     private var lastname: String = ""
@@ -97,9 +97,25 @@ class FoodRecommendation :  ComponentActivity() {
 
         //Types of diets (yet to used)
         val dietType_spinner = findViewById<Spinner>(R.id.spinner3)
-        val dietType = arrayOf("Dash", "Keto","Mediterranean", "Paleo", "Vegan", "General diet")
+        val dietType = arrayOf("dash", "keto","mediterranean", "paleo", "vegan", "general diet")
         val dietType_arrayAdp = ArrayAdapter(this@FoodRecommendation, android.R.layout.simple_spinner_dropdown_item, dietType)
         dietType_spinner.adapter = dietType_arrayAdp
+
+        dietType_spinner.onItemSelectedListener = object:
+            AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                dietType_value = dietType[position]
+            }
+        }
 
         //clickable textView, switch to meal recommendation (yet to used / will be used to display meals per day)
         val click_here = findViewById<TextView>(R.id.textView9)
@@ -130,6 +146,7 @@ class FoodRecommendation :  ComponentActivity() {
             click_here.setOnClickListener{
                 val intent = Intent(this, MealRecommendation::class.java)
                 intent.putExtra("calories", caloriesIntake)
+                intent.putExtra("dietType", dietType_value)
                 startActivity(intent)
             }
         }
