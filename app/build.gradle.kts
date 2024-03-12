@@ -70,6 +70,7 @@ dependencies {
     //new
     implementation ("com.opencsv:opencsv:4.6")
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation ("com.google.android.material:material:1.11.0")
     //end new
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
