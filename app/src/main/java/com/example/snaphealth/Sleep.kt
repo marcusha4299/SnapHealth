@@ -77,7 +77,7 @@ class Sleep : ComponentActivity() {
             temp > 24 -> "It's too hot for sleep. Consider cooling down the room."
             else -> "The temperature is perfect for sleep."
         }
-        val message = "City: $city\nTemperature: $tempFormatted°C\n$sleepAdvice"
+        val message = "City: $city\n\nTemp: $tempFormatted°C\n\n$sleepAdvice"
         findViewById<TextView>(R.id.weatherAdviceTextView).text = message
     }
 
@@ -89,7 +89,8 @@ class Sleep : ComponentActivity() {
                 val s = displayTime / 1000
                 val m = s / 60
                 val h = m / 60
-                val result = "Time Asleep: $h hours, ${m % 60} minutes, ${s % 60} seconds"
+//                val result = "$h: ${m % 60}: ${s % 60}"
+                val result = String.format("%02d:%02d:%02d", h, m, s)
                 textViewResult.text = result
 
                 if (displayTime >= 10000 && !sleptInStarted) {
@@ -102,7 +103,8 @@ class Sleep : ComponentActivity() {
                     val sleptInS = sleptInTime / 1000
                     val sleptInM = sleptInS / 60
                     val sleptInH = sleptInM / 60
-                    val sleptInResult = "$sleptInH hours, ${sleptInM % 60} minutes, ${sleptInS % 60} seconds"
+//                    val sleptInResult = "$sleptInH: ${sleptInM % 60} : ${sleptInS % 60}"
+                    val sleptInResult = String.format("%02d:%02d:%02d", sleptInH, sleptInM, sleptInS)
                     textViewSleptIn.text = sleptInResult
                 }
 
