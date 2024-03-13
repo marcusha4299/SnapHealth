@@ -3,13 +3,15 @@ package com.example.snaphealth
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.cardview.widget.CardView
+import androidx.compose.ui.graphics.Color
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.math.roundToInt
-
 
 class MealRecommendation : ComponentActivity() {
 
@@ -26,7 +28,6 @@ class MealRecommendation : ComponentActivity() {
         while (reader.readLine().also { line = it } != null) {
             val row: List<String> = line!!.split(",")
             if (row.size >= 6) {
-
                 meals.add(line!!)
             }
         }
@@ -68,15 +69,28 @@ class MealRecommendation : ComponentActivity() {
             val fat = row[5].toDoubleOrNull() ?: continue
             val totalCalories = (protein + carbs * 4 + fat * 4).roundToInt()
 
+            val cardView = CardView(this)
+            cardView.setBackgroundResource(R.drawable.button_background)
+            val layoutParams = LinearLayout.LayoutParams(
+                resources.getDimension(R.dimen.card_size).toInt(), // Adjust this dimension as needed
+                resources.getDimension(R.dimen.card_size).toInt() // Adjust this dimension as needed
+            )
+            layoutParams.gravity = Gravity.CENTER
+            layoutParams.setMargins(16, 16, 16, 16)
+            cardView.layoutParams = layoutParams
+            cardView.radius = 16f
+
             val mealTextView = TextView(this)
-            mealTextView.text = "${row[1]} - Total Calories: $totalCalories"
+            mealTextView.text = "${row[1]}  \n\nTotal Calories: $totalCalories \n\n\n\nClick here for Macros information"
             mealTextView.textSize = 18f
             mealTextView.setPadding(16, 16, 16, 16)
+            mealTextView.setTextColor(android.graphics.Color.WHITE)
             mealTextView.setOnClickListener { view ->
                 showExtraInformation(meal)
             }
 
-            linearContainer.addView(mealTextView)
+            cardView.addView(mealTextView)
+            linearContainer.addView(cardView)
         }
     }
 
