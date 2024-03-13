@@ -91,7 +91,7 @@ class MealRecommendation : ComponentActivity() {
 
         val message =
             "This delicious dish, A well-known $cuisineType cuisine,  " +
-                    "ussually called $recipeName, " +
+                    "usually called $recipeName, " +
                     "Perfect for those following a $dietType diet. " +
                     "It provide a balanced nutrition. " +
                     "Packed with $protein grams of protein, " +

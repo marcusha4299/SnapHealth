@@ -20,6 +20,7 @@ class Hydration :  ComponentActivity() {
     private var age: Int = 0
     private var height: Double = 0.0
     private var weight: Double = 0.0
+    private var waterMl : String = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,9 +45,34 @@ class Hydration :  ComponentActivity() {
         println(height)
         println(weight)
 
+        if (age < 4) {
+            waterMl = "1000"
+        }
+        else if (age in 4..8) {
+            waterMl = "1200"
+        }
+        else if (age in 9..13 && gender == "Male") {
+            waterMl = "1600"
+        }
+        else if (age in 9..13 && gender == "Female") {
+            waterMl = "1400"
+        }
+        else if (age in 14..18 && gender == "Male") {
+            waterMl = "1900"
+        }
+        else if (age in 14..18 && gender == "Female") {
+            waterMl = "1600"
+        }
+        else if (age >= 19 && gender == "Male") {
+            waterMl = "2600"
+        }
+        else {
+            waterMl = "2100"
+        }
+
         //share preferences (save data so when user reopen the data will not reverse to original)
         val sharedPreferences = getSharedPreferences("SP_INFO", MODE_PRIVATE)
-        val waterCount = sharedPreferences.getString("WATERCOUNT", "2000")
+        val waterCount = sharedPreferences.getString("WATERCOUNT", waterMl)
         var editor = sharedPreferences.edit()
 
 
@@ -73,7 +99,7 @@ class Hydration :  ComponentActivity() {
             if (Integer.parseInt(waterCount_Text.text as String) < 1) {
                 Toast.makeText(this, "Congratulations on staying hydrated", Toast.LENGTH_LONG).show()
                 Toast.makeText(this, "Keep up the great work", Toast.LENGTH_LONG).show()
-                waterCount_Text.text = "2000"
+                waterCount_Text.text = waterMl
             }
         }
 
@@ -84,7 +110,7 @@ class Hydration :  ComponentActivity() {
             if (Integer.parseInt(waterCount_Text.text as String) < 1) {
                 Toast.makeText(this, "Congratulations on staying hydrated", Toast.LENGTH_LONG).show()
                 Toast.makeText(this, "Keep up the great work", Toast.LENGTH_LONG).show()
-                waterCount_Text.text = "2000"
+                waterCount_Text.text = waterMl
             }
         }
 
@@ -95,7 +121,7 @@ class Hydration :  ComponentActivity() {
             if (Integer.parseInt(waterCount_Text.text as String) < 1) {
                 Toast.makeText(this, "Congratulations on staying hydrated", Toast.LENGTH_LONG).show()
                 Toast.makeText(this, "Keep up the great work", Toast.LENGTH_LONG).show()
-                waterCount_Text.text = "2000"
+                waterCount_Text.text = waterMl
             }
         }
 
@@ -106,7 +132,7 @@ class Hydration :  ComponentActivity() {
             if (Integer.parseInt(waterCount_Text.text as String) < 1) {
                 Toast.makeText(this, "Congratulations on staying hydrated", Toast.LENGTH_LONG).show()
                 Toast.makeText(this, "Keep up the great work", Toast.LENGTH_LONG).show()
-                waterCount_Text.text = "2000"
+                waterCount_Text.text = waterMl
             }
         }
 
@@ -118,17 +144,17 @@ class Hydration :  ComponentActivity() {
         var pastTime: String = sharedPreferences.getString("PASSTIME", "2024-01-28").toString()
         if (pastTime != currentDate) {
             editor.putString("PASTTIME", currentDate)
-            editor.putString("WATERCOUNT", "2000")
+            editor.putString("WATERCOUNT", waterMl)
             editor.commit()
-            waterCount_Text.text = "2000"
+            waterCount_Text.text = waterMl
         }
         date_textView.text = currentDate
 
         //clear count
         val clearButton: Button = findViewById(R.id.clear_text)
         clearButton.setOnClickListener {
-            waterCount_Text.text = "2000"
-            editor.putString("WATERCOUNT", "2000")
+            waterCount_Text.text = waterMl
+            editor.putString("WATERCOUNT", waterMl)
             editor.commit()
         }
     }
