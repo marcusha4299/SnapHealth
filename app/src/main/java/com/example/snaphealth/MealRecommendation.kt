@@ -72,8 +72,8 @@ class MealRecommendation : ComponentActivity() {
             val cardView = CardView(this)
             cardView.setBackgroundResource(R.drawable.button_background)
             val layoutParams = LinearLayout.LayoutParams(
-                resources.getDimension(R.dimen.card_size).toInt(), // Adjust this dimension as needed
-                resources.getDimension(R.dimen.card_size).toInt() // Adjust this dimension as needed
+                resources.getDimension(R.dimen.card_size).toInt(),
+                resources.getDimension(R.dimen.card_size).toInt()
             )
             layoutParams.gravity = Gravity.CENTER
             layoutParams.setMargins(16, 16, 16, 16)

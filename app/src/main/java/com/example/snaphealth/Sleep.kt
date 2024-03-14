@@ -92,7 +92,7 @@ class Sleep : ComponentActivity() {
                 val m = s / 60
                 val h = m / 60
 //                val result = "$h: ${m % 60}: ${s % 60}"
-                val result = String.format("%02d:%02d:%02d", h, m, s)
+                val result = String.format("%02d:%02d:%02d", h, m%60, s%60)
                 textViewResult.text = result
 
                 if (displayTime >= 10000 && !sleptInStarted) {
@@ -106,7 +106,7 @@ class Sleep : ComponentActivity() {
                     val sleptInM = sleptInS / 60
                     val sleptInH = sleptInM / 60
 //                    val sleptInResult = "$sleptInH: ${sleptInM % 60} : ${sleptInS % 60}"
-                    val sleptInResult = String.format("%02d:%02d:%02d", sleptInH, sleptInM, sleptInS)
+                    val sleptInResult = String.format("%02d:%02d:%02d", sleptInH, sleptInM%60, sleptInS%60)
                     textViewSleptIn.text = sleptInResult
                 }
 
