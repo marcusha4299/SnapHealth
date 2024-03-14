@@ -150,6 +150,7 @@ class Sleep : ComponentActivity() {
         val analyzeBtn = findViewById<TextView>(R.id.textView7)
         analyzeBtn.setOnClickListener {
             val intent = Intent(this, SleepAnalysis::class.java)
+            intent.putExtra("username", username)
             startActivity(intent)
         }
     }
@@ -182,7 +183,8 @@ class Sleep : ComponentActivity() {
         )
 
         GlobalScope.launch(Dispatchers.IO) {
-            val file = File(filesDir, "sleep_data.csv")
+            val sleepDataFileName = "sleep_data_$username.csv"
+            val file = File(filesDir, sleepDataFileName)
             if (!file.exists()) {
                 file.createNewFile()
                 file.appendText("Begin Time, End Time, Sleep Time (ms), Oversleep Time (ms)\n")

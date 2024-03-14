@@ -22,18 +22,27 @@ import java.io.File
 import java.io.FileReader
 
 class SleepAnalysis : ComponentActivity() {
+    private var username: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_sleep_analysis)
+
+        val data = intent.extras
+        if (data != null) {
+            username = data.getString("username").toString()
+        }
+        println(username)
 
         val combinedChart = findViewById<CombinedChart>(R.id.barChart)
         var totalSleepHours = 0f
         var numEntries = 0
 
+
         // Read user sleep data from CSV file and populate the list
         val userSleepList: ArrayList<BarEntry> = ArrayList()
         try {
-            val file = File(filesDir, "sleep_data.csv")
+            val sleepDataFileName = "sleep_data_$username.csv"
+            val file = File(filesDir, sleepDataFileName)
             val reader = BufferedReader(FileReader(file))
             var line: String?
             // Skip the header line
@@ -118,15 +127,18 @@ class SleepAnalysis : ComponentActivity() {
         var recommendedSleepHours = 8f // Default value for adults
         try {
             val jsonFile = File(filesDir, "user_data.json")
-            val reader = BufferedReader(FileReader(jsonFile))
-            val jsonString = reader.readText()
-            reader.close()
-            val jsonObject = JSONObject(jsonString)
-            val keys = jsonObject.keys()
-            while (keys.hasNext()) {
-                val key = keys.next()
-                val userData = jsonObject.getJSONArray(key)
-                val age = userData[4] as Int// Assuming age is stored at index 4
+//            val reader = BufferedReader(FileReader(jsonFile))
+//            val jsonString = reader.readText()
+//            reader.close()
+//            val jsonObject = JSONObject(jsonString)
+//            val keys = jsonObject.keys()
+            val dataJsonString = jsonFile.readText()
+            val dataJsonObject = JSONObject(dataJsonString)
+            if (dataJsonObject.has(username)) {
+//                val key = keys.next()
+//                val userData = jsonObject.getJSONArray(key)
+                val dataJsonArray = dataJsonObject.getJSONArray(username)
+                val age = dataJsonArray.get(4) as Int// Assuming age is stored at index 4
                 recommendedSleepHours = when {
                     age >= 65 -> 8f
                     age in 61..64 -> 9f
