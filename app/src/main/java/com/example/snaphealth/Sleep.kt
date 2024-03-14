@@ -1,8 +1,10 @@
 package com.example.snaphealth
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import android.os.Handler
+import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
 import kotlinx.coroutines.Dispatchers
@@ -144,6 +146,11 @@ class Sleep : ComponentActivity() {
             } else {
                 stopTimer()
             }
+        }
+        val analyzeBtn = findViewById<TextView>(R.id.textView7)
+        analyzeBtn.setOnClickListener {
+            val intent = Intent(this, SleepAnalysis::class.java)
+            startActivity(intent)
         }
     }
 
