@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -82,20 +83,23 @@ class Hydration :  ComponentActivity() {
         val fiveButton: Button = findViewById(R.id.five_button)
         val mugButton: Button = findViewById(R.id.mug_button)
         val waterCount_Text: TextView = findViewById(R.id.WaterCount_textView)
-//        val backButton: Button = findViewById(R.id.back_button)
+        val progressBar:ProgressBar = findViewById(R.id.progressBar)
 
-//        backButton.setOnClickListener {
-//            // Navigate back to MainActivity
-//            val intent = Intent(this, MainActivity::class.java)
-//            startActivity(intent)
-//            finish() // Optional: Close the current activity
-//        }
         waterCount_Text.text = waterCount
 
+        fun updateProgressBar(waterCount: Int) {
+            progressBar.progress = waterCount
+        }
+
         smallButton.setOnClickListener{
-            waterCount_Text.text = (Integer.parseInt(waterCount_Text.text as String) -43).toString()
-            editor.putString("WATERCOUNT", waterCount_Text.text as String)
+            val currentWaterCount = Integer.parseInt(waterCount_Text.text as String)
+            val newWaterCount = currentWaterCount - 43
+            waterCount_Text.text = newWaterCount.toString()
+            editor.putString("WATERCOUNT", newWaterCount.toString())
             editor.apply()
+
+            // Update progress bar
+            updateProgressBar(newWaterCount)
             if (Integer.parseInt(waterCount_Text.text as String) < 1) {
                 Toast.makeText(this, "Congratulations on staying hydrated", Toast.LENGTH_LONG).show()
                 Toast.makeText(this, "Keep up the great work", Toast.LENGTH_LONG).show()
@@ -104,9 +108,14 @@ class Hydration :  ComponentActivity() {
         }
 
         largeButton.setOnClickListener{
-            waterCount_Text.text = (Integer.parseInt(waterCount_Text.text as String) -77).toString()
-            editor.putString("WATERCOUNT", waterCount_Text.text as String)
-            editor.commit()
+            val currentWaterCount = Integer.parseInt(waterCount_Text.text as String)
+            val newWaterCount = currentWaterCount - 77
+            waterCount_Text.text = newWaterCount.toString()
+            editor.putString("WATERCOUNT", newWaterCount.toString())
+            editor.apply()
+
+            // Update progress bar
+            updateProgressBar(newWaterCount)
             if (Integer.parseInt(waterCount_Text.text as String) < 1) {
                 Toast.makeText(this, "Congratulations on staying hydrated", Toast.LENGTH_LONG).show()
                 Toast.makeText(this, "Keep up the great work", Toast.LENGTH_LONG).show()
@@ -115,9 +124,14 @@ class Hydration :  ComponentActivity() {
         }
 
         fiveButton.setOnClickListener{
-            waterCount_Text.text = (Integer.parseInt(waterCount_Text.text as String) -157).toString()
-            editor.putString("WATERCOUNT", waterCount_Text.text as String)
-            editor.commit()
+            val currentWaterCount = Integer.parseInt(waterCount_Text.text as String)
+            val newWaterCount = currentWaterCount - 157
+            waterCount_Text.text = newWaterCount.toString()
+            editor.putString("WATERCOUNT", newWaterCount.toString())
+            editor.apply()
+
+            // Update progress bar
+            updateProgressBar(newWaterCount)
             if (Integer.parseInt(waterCount_Text.text as String) < 1) {
                 Toast.makeText(this, "Congratulations on staying hydrated", Toast.LENGTH_LONG).show()
                 Toast.makeText(this, "Keep up the great work", Toast.LENGTH_LONG).show()
@@ -126,9 +140,14 @@ class Hydration :  ComponentActivity() {
         }
 
         mugButton.setOnClickListener{
-            waterCount_Text.text = (Integer.parseInt(waterCount_Text.text as String) -240).toString()
-            editor.putString("WATERCOUNT", waterCount_Text.text as String)
-            editor.commit()
+            val currentWaterCount = Integer.parseInt(waterCount_Text.text as String)
+            val newWaterCount = currentWaterCount - 240
+            waterCount_Text.text = newWaterCount.toString()
+            editor.putString("WATERCOUNT", newWaterCount.toString())
+            editor.apply()
+
+            // Update progress bar
+            updateProgressBar(newWaterCount)
             if (Integer.parseInt(waterCount_Text.text as String) < 1) {
                 Toast.makeText(this, "Congratulations on staying hydrated", Toast.LENGTH_LONG).show()
                 Toast.makeText(this, "Keep up the great work", Toast.LENGTH_LONG).show()
