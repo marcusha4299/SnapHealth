@@ -55,10 +55,15 @@ class SleepAnalysis : ComponentActivity() {
 
         val message: String = when {
             averageSleepHours < recommendationSleepHours - 1 -> {
-                "Your Sleep Quality is not good overall. Our data indicates that you have not slept enough. Remind that undersleep is the reason for Memory loss, Poor concentration, Immunodeficiency, Increased risk of cardiovascular disease, stroke and Increased risk of depression."
+                "Your Sleep Quality is not good overall. " +
+                        "Our record indicates that you have not slept enough. " +
+                        "Remind that undersleep is the reason for Memory loss, Poor concentration, " +
+                        "Immunodeficiency, Increased risk of cardiovascular disease, stroke and Increased risk of depression."
             }
             averageSleepHours > recommendationSleepHours + 1 -> {
-                "Your Sleep Quality is not good overall. Our data indicates that you have slept too much. Remind that oversleep is the reason of Obesity, diabetes, heart disease, headaches and sleep disorders."
+                "Your Sleep Quality is not good overall. " +
+                        "Our record indicates that you have slept too much. " +
+                        "Remind that oversleep is the reason of Obesity, diabetes, heart disease, headaches and sleep disorders."
             }
             else -> {
                 "Your sleep is good overall, keep your sleep as it is right now, you will have a good health condition."
@@ -69,7 +74,7 @@ class SleepAnalysis : ComponentActivity() {
         val userSleepDataSet = BarDataSet(userSleepList, "User Sleep Analysis")
         val blueColor = Color.BLUE
         userSleepDataSet.color = blueColor // Set all bars to blue
-        userSleepDataSet.valueTextColor = Color.BLACK
+        userSleepDataSet.valueTextColor = Color.WHITE
 
         val userSleepData = BarData(userSleepDataSet)
 
@@ -81,7 +86,7 @@ class SleepAnalysis : ComponentActivity() {
 
         val recommendedDataSet = LineDataSet(recommendedEntries, "Recommended Sleep Hours")
         recommendedDataSet.color = Color.RED
-        recommendedDataSet.valueTextColor = Color.BLACK
+        recommendedDataSet.valueTextColor = Color.WHITE
         recommendedDataSet.mode = LineDataSet.Mode.STEPPED
 
         val recommendedData = LineData(recommendedDataSet)
@@ -95,6 +100,9 @@ class SleepAnalysis : ComponentActivity() {
         // change color chart
         combinedChart.description.isEnabled = false
         combinedChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        combinedChart.xAxis.textColor = Color.WHITE
+        combinedChart.axisLeft.textColor = Color.WHITE
+        combinedChart.legend.textColor = Color.WHITE
         combinedChart.xAxis.valueFormatter = object : ValueFormatter() {
             override fun getAxisLabel(value: Float, axis: AxisBase?): String {
                 return value.toInt().toString() // Custom formatting for x-axis labels
