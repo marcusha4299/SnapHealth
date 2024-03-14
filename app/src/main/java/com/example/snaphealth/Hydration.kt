@@ -1,10 +1,9 @@
 package com.example.snaphealth
 
-import android.content.Intent
+
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
