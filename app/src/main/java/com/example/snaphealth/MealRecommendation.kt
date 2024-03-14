@@ -19,9 +19,9 @@ class MealRecommendation : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_meal_recommendation)
 
-        val minput = InputStreamReader(assets.open("Diets.csv"))
-        val reader = BufferedReader(minput)
-
+        //read Diets.csv files
+        val csvfile = InputStreamReader(assets.open("Diets.csv"))
+        val reader = BufferedReader(csvfile)
         var line : String?
         val meals: MutableList<String> = mutableListOf()
 
@@ -31,7 +31,9 @@ class MealRecommendation : ComponentActivity() {
                 meals.add(line!!)
             }
         }
+
         val targetCalories = intent.getIntExtra("calories", 0)
+        //set up a bound +- 100 for acceptable result
         val minCalories = targetCalories - 100
         val maxCalories = targetCalories + 100
         meals.shuffle()
@@ -45,15 +47,18 @@ class MealRecommendation : ComponentActivity() {
                 break
             }
 
+            //filter dataset based on Diet type
             val row: List<String> = meal.split(",")
             val dietType = row[0]
-
             if (selectedDietType == "general diet" || selectedDietType == dietType) {
+                //convert to Double if it has or null if fail to convert
                 val protein = row[3].toDoubleOrNull() ?: continue
                 val carbs = row[4].toDoubleOrNull() ?: continue
                 val fat = row[5].toDoubleOrNull() ?: continue
+                // 1pro -> 1 cal, 1card = 1fat -> 4 cal
                 val totalCalories = (protein * 1 + carbs * 4 + fat * 4)
 
+                //meals consider acceptable if its calories is in bound
                 if (totalSelectedCalories + totalCalories <= maxCalories && totalSelectedCalories + totalCalories >= minCalories) {
                     selectedMeals.add(meal)
                     totalSelectedCalories += totalCalories
@@ -69,6 +74,7 @@ class MealRecommendation : ComponentActivity() {
             val fat = row[5].toDoubleOrNull() ?: continue
             val totalCalories = (protein + carbs * 4 + fat * 4).roundToInt()
 
+            //UI stuff -> create box contain each meals
             val cardView = CardView(this)
             cardView.setBackgroundResource(R.drawable.button_background)
             val layoutParams = LinearLayout.LayoutParams(
@@ -93,7 +99,7 @@ class MealRecommendation : ComponentActivity() {
             linearContainer.addView(cardView)
         }
     }
-
+//Show extra information of the meals when user click on the meal box
     private fun showExtraInformation(meal: String) {
         val row: List<String> = meal.split(",")
         val recipeName = row[1]

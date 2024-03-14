@@ -95,7 +95,7 @@ class FoodRecommendation :  ComponentActivity() {
             }
         }
 
-        //Types of diets (yet to used)
+        //Types of diets
         val dietType_spinner = findViewById<Spinner>(R.id.spinner3)
         val dietType = arrayOf("dash", "keto","mediterranean", "paleo", "vegan", "general diet")
         val dietType_arrayAdp = ArrayAdapter(this@FoodRecommendation, android.R.layout.simple_spinner_dropdown_item, dietType)
@@ -117,7 +117,7 @@ class FoodRecommendation :  ComponentActivity() {
             }
         }
 
-        //clickable textView, switch to meal recommendation (yet to used / will be used to display meals per day)
+        //clickable textView, switch to meal recommendation
         val click_here = findViewById<TextView>(R.id.textView9)
         click_here.setOnClickListener {
             val intent = Intent(this, MealRecommendation::class.java)
@@ -131,11 +131,6 @@ class FoodRecommendation :  ComponentActivity() {
 
         //pass objects and method from algorithm from recommendation_system
         calculate.setOnClickListener {
-//            val height = intent.getDoubleExtra("height", 0.0)
-//            val weight = intent.getDoubleExtra("weight", 0.0)
-//            val age = intent.getIntExtra("age", 0)
-//            val gender = intent.getBooleanExtra("gender", true)
-
             //pass algorithm from FoodRecommendation activity to display calories_intake
             val recommendationSystem = Recommendation_system()
             val bmr = recommendationSystem.BMR_calculate(age, height, weight, gender)
