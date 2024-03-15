@@ -8,7 +8,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.cardview.widget.CardView
-import androidx.compose.ui.graphics.Color
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.math.roundToInt
@@ -94,9 +93,9 @@ class MealRecommendation : ComponentActivity() {
             mealTextView.setOnClickListener { view ->
                 showExtraInformation(meal)
             }
-
             cardView.addView(mealTextView)
             linearContainer.addView(cardView)
+            //end UI stuff
         }
     }
 //Show extra information of the meals when user click on the meal box

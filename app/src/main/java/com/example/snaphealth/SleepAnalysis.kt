@@ -79,7 +79,7 @@ class SleepAnalysis : ComponentActivity() {
             }
         }
 
-        // Create bar chart
+        // Create bar chart based on sleep duration
         val userSleepDataSet = BarDataSet(userSleepList, "User Sleep Analysis")
         val blueColor = Color.BLUE
         userSleepDataSet.color = blueColor // Set all bars to blue
@@ -87,7 +87,7 @@ class SleepAnalysis : ComponentActivity() {
 
         val userSleepData = BarData(userSleepDataSet)
 
-        // Create line chart
+        // Create line chart base on recommended sleep hours by age
         val recommendedEntries = ArrayList<Entry>()
         for (i in userSleepList.indices) {
             recommendedEntries.add(Entry(i.toFloat(), calculateRecommendedSleepHours()))
@@ -106,7 +106,7 @@ class SleepAnalysis : ComponentActivity() {
             setData(recommendedData)
         }
 
-        // change color chart
+        // change chart color
         combinedChart.description.isEnabled = false
         combinedChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
         combinedChart.xAxis.textColor = Color.WHITE
@@ -138,7 +138,8 @@ class SleepAnalysis : ComponentActivity() {
 //                val key = keys.next()
 //                val userData = jsonObject.getJSONArray(key)
                 val dataJsonArray = dataJsonObject.getJSONArray(username)
-                val age = dataJsonArray.get(4) as Int// Assuming age is stored at index 4
+                val age = dataJsonArray.get(4) as Int ///read json file at collumn 4
+                //https://www.cdc.gov/sleep/about_sleep/how_much_sleep.html
                 recommendedSleepHours = when {
                     age >= 65 -> 8f
                     age in 61..64 -> 9f
@@ -147,7 +148,7 @@ class SleepAnalysis : ComponentActivity() {
                     age in 6..12 -> 12f
                     age in 3..5 -> 13f
                     age in 1..2 -> 14f
-                    else -> 8f// Default to adult recommendation
+                    else -> 8f
                 }
             }
         } catch (e: Exception) {
@@ -155,6 +156,8 @@ class SleepAnalysis : ComponentActivity() {
         }
         return recommendedSleepHours
     }
+    //Show message when user switch to this page
+    //TODO: Show message when user click on the chart(not yet implemented)
     private fun showMessageDialog(message: String) {
         val builder = AlertDialog.Builder(this)
         builder.setMessage(message)

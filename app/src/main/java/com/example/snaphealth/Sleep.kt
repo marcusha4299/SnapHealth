@@ -32,7 +32,6 @@ class Sleep : ComponentActivity() {
     private var sleptInStartTime: Long = 0
     private val handler = Handler()
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-
     private var username: String = ""
     private var firstname: String = ""
     private var lastname: String = ""
@@ -91,7 +90,7 @@ class Sleep : ComponentActivity() {
                 val s = displayTime / 1000
                 val m = s / 60
                 val h = m / 60
-//                val result = "$h: ${m % 60}: ${s % 60}"
+//              val result = "$h: ${m % 60}: ${s % 60}"
                 val result = String.format("%02d:%02d:%02d", h, m%60, s%60)
                 textViewResult.text = result
 
@@ -105,10 +104,11 @@ class Sleep : ComponentActivity() {
                     val sleptInS = sleptInTime / 1000
                     val sleptInM = sleptInS / 60
                     val sleptInH = sleptInM / 60
-//                    val sleptInResult = "$sleptInH: ${sleptInM % 60} : ${sleptInS % 60}"
+//                  val sleptInResult = "$sleptInH: ${sleptInM % 60} : ${sleptInS % 60}"
                     val sleptInResult = String.format("%02d:%02d:%02d", sleptInH, sleptInM%60, sleptInS%60)
                     textViewSleptIn.text = sleptInResult
                 }
+                //TODO: Slept in should be based on age (not yet implemented)
 
                 handler.postDelayed(this, 1000)
             }
