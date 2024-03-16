@@ -9,7 +9,7 @@ import android.os.Bundle
 
 class Recommendation_system : ComponentActivity(){
 
-        // Calculate BMR base on weight, height, age,and gender.
+        // Calculate BMR
         //https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7784146/#:~:text=In%20men%2C%20the%20Harris%2DBenedict,4.6756%20x%20age%20in%20years
         fun BMR_calculate(
             age: Int,
@@ -24,7 +24,7 @@ class Recommendation_system : ComponentActivity(){
             }
         }
 
-        //Calculate tdee base on activity level to know how much calories needed to maintain bodyweight
+        //Calculate tdee
         //https://www.livestrong.com/article/526442-the-activity-factor-for-calculating-calories-burned/
         fun tdee(bmr: Double, activity_level: String): Double {
             return when (activity_level) {
@@ -36,7 +36,7 @@ class Recommendation_system : ComponentActivity(){
             }
         }
 
-        //calculate calories intake up to user's purpose (lose/gain/maintain weight)
+        //calculate calories intake
         fun calories_intake(
             tdee: Double,
             goal: String,

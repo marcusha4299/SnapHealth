@@ -50,6 +50,7 @@ class FoodRecommendation :  ComponentActivity() {
         println(weight)
 
         //Types of level activity, pass to recommendation algorithm
+        //chatGPT support me to create spinner
         val level_spinner = findViewById<Spinner>(R.id.spinner)
         val level = arrayOf("Sedentary(little or no exercise)", "Lightly(1-2 days/week)","Moderately(3-5 days/week)", "Very(6-7 days/week)","Extremely(Professional athlete)")
         val level_arrayAdp = ArrayAdapter(this@FoodRecommendation, android.R.layout.simple_spinner_dropdown_item, level)
@@ -70,7 +71,7 @@ class FoodRecommendation :  ComponentActivity() {
             ) {
                 level_value = level[position]
             }
-            }
+            } //end
 
         //Types of goal, pass to recommendation algorithm
         val goal_spinner = findViewById<Spinner>(R.id.spinner2)
@@ -94,6 +95,7 @@ class FoodRecommendation :  ComponentActivity() {
                 goal_value = goal[position]
             }
         }
+
 
         //Types of diets
         val dietType_spinner = findViewById<Spinner>(R.id.spinner3)

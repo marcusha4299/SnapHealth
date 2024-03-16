@@ -71,6 +71,7 @@ class Hydration :  ComponentActivity() {
         }
 
         //share preferences (save data so when user reopen the data will not reverse to original)
+        //refer https://www.youtube.com/watch?v=rHbE1Xcrg_A for idea
         val sharedPreferences = getSharedPreferences("SP_INFO", MODE_PRIVATE)
         val waterCount = sharedPreferences.getString("WATERCOUNT", waterMl)
         var editor = sharedPreferences.edit()

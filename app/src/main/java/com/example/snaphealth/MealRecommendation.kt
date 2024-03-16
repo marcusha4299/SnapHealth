@@ -47,6 +47,7 @@ class MealRecommendation : ComponentActivity() {
             }
 
             //filter dataset based on Diet type
+            //chatGPT assist me to filtering csv file
             val row: List<String> = meal.split(",")
             val dietType = row[0]
             if (selectedDietType == "general diet" || selectedDietType == dietType) {
@@ -63,6 +64,7 @@ class MealRecommendation : ComponentActivity() {
                     totalSelectedCalories += totalCalories
                 }
             }
+            //end
         }
         val linearContainer = findViewById<LinearLayout>(R.id.linearContainer)
 

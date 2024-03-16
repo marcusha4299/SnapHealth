@@ -107,6 +107,7 @@ class SleepAnalysis : ComponentActivity() {
         }
 
         // change chart color
+        //chatGPT assist me to combine bar chart and line chart
         combinedChart.description.isEnabled = false
         combinedChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
         combinedChart.xAxis.textColor = Color.WHITE
@@ -119,6 +120,7 @@ class SleepAnalysis : ComponentActivity() {
         }
         combinedChart.invalidate()
         showMessageDialog(message)
+        //end
     }
 
     // Function to calculate recommended sleep hours based on age
